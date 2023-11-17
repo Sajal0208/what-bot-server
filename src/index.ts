@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from 'cors';
 var bodyParser = require('body-parser');
 const authRouter = require('./routes/auth');
+const scanRouter = require('./routes/scan');
 import { errorHandler } from "./middleware/errorMiddleware";
 
 interface UserBasicInfo {
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(helmet());
 app.use('/auth', authRouter);
+app.use('/scan', scanRouter);
 app.use(errorHandler);
 
 const start = () => {

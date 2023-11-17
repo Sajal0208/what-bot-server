@@ -1,7 +1,7 @@
 import prisma from "../db";
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-import { getToken } from '../utils/token'
+import { getToken } from "../utils/token";
 
 type TRegisterUserData = {
   email: string;
@@ -74,17 +74,20 @@ const registerUser = async (data: TRegisterUserData) => {
   const maxAge = 2 * 60 * 60;
   const token = getToken(email, maxAge);
 
-  const newUser = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password: hashedPassword,
-      mobile,
-      token,
-    },
-  });
-
-  return { newUser, token, maxAge };
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        name,
+        password: hashedPassword,
+        mobile,
+        token,
+      },
+    });
+    return { newUser, token, maxAge };
+  } catch (e: any) {
+    throw new Error(e.message);
+  }
 };
 
 const loginUser = async (data: TLoginUserData) => {

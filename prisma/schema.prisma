@@ -13,8 +13,10 @@ model User {
   name            String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  mobile          String
+  mobile          String   @unique
   isAuthenticated Boolean? @default(false)
   password        String
   token           String
+  numApiTokens    Int      @default(0)
+  numApiRequests  Int      @default(0)
 }
